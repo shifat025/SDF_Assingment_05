@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+<div class="col-12">
+  <div class="card m-2">
+    <div class="card-body one">
+      <div class="d-flex justify-content-center align-items-center p-4">
+        <h1>Welcome to our Library</h1>
+        <img class="home mx-5" src="{% static 'images/library.jpeg' %}" alt="">
+     </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-12">
+  <div class="card m-2">
+    <div class="card-body two">
+      <div class='d-flex justify-content-center'>
+      {% for b in book %}
+        <div class='band'>
+          <a class="btn btn-warning m-2", style="width: 120px;" href="{% url 'book_wise_post' b.slug %}">{{b.name}}</a>
+          </div>
+      {% endfor %}
+    </div>
+    </div>
+  </div>
+</div>
+<div class="col-12">
+  <div class="card m-2">
+    <div class="card-body three">
+      <div class='d-flex justify-content-center'>
+        <h4>Total Book found : {{data | length}}</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-12">
+  <div class="card m-2 ">
+    <div class="card-body four"> 
+  <div class='d-flex justify-content-center align-items-center  gap-5 flex-wrap' >
+    {% for i in data %}
+    <div class="card" style="width: 18rem;">
+    <img src="{{i.image.url}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Book Title : <a class="btn btn-warning" href="">{{i.title}}</a></h5>
+      <h5 class="card-title">Discription :{{i.discription | truncatewords:10}} </h5>
+      <h5 class="card-title">Quantity :{{i.quantity}} </h5>
+      <h5 class="card-title">Price : {{i.borrowing_price}}</h5>
+      <h4>Book Type : <button class="btn btn-danger  m-2">{{i.book_type}}</button></h4>
+      <h5 class="card-title"></h5>
+      <div class='p-2' style="width:50% ; margin : auto">
+        <a class="btn btn-warning"  href="{% url 'Details' i.id %}">View</a>
+      </div>
+      {% if request.user.is_authenticated %}
+      <div style="width:50% ; margin : auto"><a href="{% url 'borrow' id=i.id %}" class="btn btn-warning">Borrow</a></div>
+      {% endif %}
+    </div>
+    </div>
+  {% endfor %}
+  </div>
+  </div>
+</div>
+{% endblock  %}

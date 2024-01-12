@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{%  load crispy_forms_tags %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock  %}
+{% block content %}
+
+<div class="col-12 p-img">
+    <div class="card m-2 p-img">
+            <div class='d-flex  align-items-center justify-content-center'>
+                <div class="p-img">
+                    <img src="{{details.image.url}}" class="card-img-top " alt="..." >
+                </div>
+                <div style="width:50% ; margin">
+                    <h5 class="card-title">Book Title :{{details.title}} </h5>
+                    <h5 class="card-title">Discription :{{details.discription}} </h5>
+                    <h5 class="card-title">Quantity :{{details.quantity}} </h5>
+                    <h5 class="card-title">{{details.account_balance}}</h5>
+                    <h5 class="card-title">Price : {{details.borrowing_price}}</h5>
+                    <h4>Book Type : <button class="btn btn-danger  m-2">{{details.book_type}}</button></h4>
+                    {% if request.user.is_authenticated %}
+                   <a href="{% url 'borrow' id=details.id %}" class="btn btn-primary">Borrow</a>
+                    {% endif %}
+                </div>   
+            </div>             
+
+           
+       
+    </div>
+</div>
+<div class="card m-2">
+    <h5 class="p-3">Total Reviews: {{ reviews | length }}</h5>
+    {% for review in reviews %}
+        <div class="card-body border m-2">
+            <p>{{ review.user.username }} </p>
+            <h2>Rating {{ review.rating }}</h2>
+            <p>{{ review.comment }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% if request.user.is_authenticated %}
+<div class="card m-2">
+    <div class="card-body">
+        <form method="post">
+            <h1>Add Review</h1>
+            {% csrf_token %}
+            {{ review_form | crispy }}
+            
+                <button class="btn btn-warning">Submit Review</button>
+            
+{% endif %}
+        </form>
+    </div>
+</div>
+
+
+{% endblock  %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+  
+  <div class="col-12">
+    <div class="card m-2 ">
+    <div class="card-body four"> 
+      
+  <div style=" margin : 10px">
+    <table class="table table-bordered border-primary">
+        <thead>
+          <tr>
+            
+            <th scope="col">Title</th>
+            <th scope="col">Discription</th>
+            <th scope="col">Price</th>
+            <th scope="col">Book Type</th>
+            <th scope="col">BorrowDate</th>
+            <th scope="col">Return</th>
+          </tr>
+        </thead>
+
+        {% for profile in dataa %}
+        <tbody>
+          <tr>
+            <td>{{profile.books.title}} </td>
+            <td>{{profile.books.discription | truncatewords:10}}</td>
+            <td>{{profile.books.borrowing_price}}</td>
+            <td>{{profile.books.book_type}}</td>
+            <td>{{profile.borrowing_date}}</td>
+            <td>
+                <div class="d-flex">
+                    <a href="{% url 'bookreturn' id=profile.books.id historyid=profile.id  %}" class="btn btn-warning">Return</a>
+                </div>
+            </td>
+          </tr>
+        </tbody>
+        
+
+        {% endfor %}
+      </table>
+</div>
+    
+    </div>
+    </div>
+  </div>
+  
+
+
+
+{% endblock  %}
