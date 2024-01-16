@@ -40,15 +40,18 @@
     {% endfor %}
 </div>
 {% if request.user.is_authenticated %}
-<div class="card m-2">
-    <div class="card-body">
-        <form method="post">
-            <h1>Add Review</h1>
-            {% csrf_token %}
-            {{ review_form | crispy }}
-            
+{% if has_bought_book %}
+    <div class="card m-2">
+        <div class="card-body">
+            <form method="post">
+                <h1>Add Review</h1>
+                {% csrf_token %}
+                {{ review_form | crispy }}
                 <button class="btn btn-warning">Submit Review</button>
-            
+            </form>
+        </div>
+    </div>
+{% endif %}
 {% endif %}
         </form>
     </div>
