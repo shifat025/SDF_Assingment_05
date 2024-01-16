@@ -20,10 +20,14 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
           </li>
+          {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'deposit' %}">Deposit</a>
           </li>
-       
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'Profile_update' %}">Update Profile</a>
+          </li>
+          {% endif %}
         </ul>
         
         {% if request.user.is_authenticated %}

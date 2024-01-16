@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from Borrowbook.models import Borrowedbook
+from django.views import View
+from .forms import ChangeUserForm
 
 # Create your views here.
 def sing_up(request):
@@ -40,6 +42,20 @@ def user_logout(request):
     logout(request)
     messages.success(request,'Logged Out Successfully')
     return redirect('user_login')
+
+class UpdateView(View):
+    template_name = 'authentication/update_profile.html'
+
+    def get(self, request):
+        form = ChangeUserForm(instance=request.user)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = ChangeUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Redirect to the user's profile page
+        return render(request, self.template_name, {'form': form})
 
 @login_required
 def profile(request):
